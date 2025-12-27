@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root{
+    --dark-blue: #0A122A;
+    --white: #ffffff;
+    --yellow: #FEC601;
+    --green: #05F140;
+}
+/*Type Selectors*/
+body{
+    background-color: var(--dark-blue);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Roboto";
+    padding-top: 50px;
+}
+
+img{
+    max-width: 100%;
+    object-fit: cover;
+    height: 100px;
+}
+
+/*ID Selectors*/
+
+/*Class Selectors*/
+.game-area{
+    background-color: var(--white);
+    padding: 20px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.game-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    
+}
+
+.computer-container,.human-container, .versus-container{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5,1fr);
+    gap: 20px;
+}
+
+.items{
+    text-align: center;
+}
+
+.title{
+    grid-row: 1 / 2;
+}
+
+.image{
+    grid-row: 2 / 3;
+}
+
+.scoreTitle{
+    grid-row: 3 / 4;
+}
+
+.score{
+    grid-row: 4 / 5;
+}
+
+.choices{
+    grid-row: 5 / 6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.choices > button, #restart-btn{
+    background-color: var(--yellow);
+    padding: 0px 15px;
+    border-radius: 8px;
+    color: var(--white);
+    font-size: 1em;
+    font-weight: bold;
+    height: 30px;
+}
+
+.results{
+    text-align: center;
+}
+
+.player-title,#results-text{
+    font-size: 2em;
+}
+
+.scoreTitle > h3{
+    font-size: 1em;
+}
+
+.hidden{
+    display: none;
+}
+
+.win{
+    color: var(--green);
+}
+
+.lose{
+    color: red;
+}
+
+.result{
+    font-weight: 500;
+    font-size: 1em;
+}
+
+.winner-text, .game-over{
+    font-size: 1.3em;
+    font-weight: 700;
+}

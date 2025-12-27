@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="game-area">
+        <div class="game-container">
+            <div class="computer-container">
+                <div class="items title">
+                    <h2 class="player-title">Computer</h2>
+                </div>
+                <div class="items image hidden">
+                    <img src="" alt="">
+                </div>
+                <div class="items scoreTitle">
+                    <h3>Computer Score</h3>
+                </div>
+                <div class="items score">
+                    <p id="computer-score">0</p>
+                </div>
+            </div>
+            <div class="versus-container">
+                <div class="items title">
+                    <h2 class="player-title">Vs</h2>
+                </div>
+                <div class="items score">
+                    <h3>-</h3>
+                </div>
+            </div>
+            <div class="human-container">
+                <div class="items title">
+                    <h2 class="player-title"><span class="player-name">Human</span></h2>
+                </div>
+                <div class="items image hidden">
+                    <img src="" alt="">
+                </div>
+                <div class="items scoreTitle">
+                    <h3><span class="player-name">Human</span> Score</h3>
+                </div>
+                <div class="items score">
+                    <p id="human-score">0</p>
+                </div>
+                <div class="choices items">
+                    <button type="button" id="rock">rock</button>
+                    <button type="button" id="paper">paper</button>
+                    <button type="button" id="scissors">scissors</button>
+                </div>
+            </div>
+        </div>
+        <div class="results">
+            <p id="results-text">Results</p>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
