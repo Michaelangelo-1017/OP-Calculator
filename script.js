@@ -3,15 +3,15 @@ const display = document.getElementById("display");
 const numberButtons = document.querySelectorAll(".number-button");
 const operatorButtons = document.querySelectorAll(".operator-button");
 const clearBtn = document.getElementById("clear");
-const specialOperatorButtons = document.querySelectorAll(".special-operator-button");
 const signChangerBtn = document.getElementById('plus-minus');
 const equalsBtn = document.getElementById('equals');
 let currentInput = "";
 const decimalBtn = document.getElementById('decimal');
-const operatorSigns = ['+','-','*','x','/','%'];
-const operatorsRegex = /[\d\)]([\+x%\÷-])[\d\()]/;
-const bracketsRegex = /[\(\)]/;
-const firstHalfRegex = /^\(-\d+\)$/;
+const calculatorBtn = document.getElementById('calculator-type');
+const modal = document.getElementById('modal');
+const extraFunctionsDiv = document.getElementById('extra-functions');
+const roundDiv = document.getElementById('round');
+const truncateDiv = document.getElementById('truncate');
 const displayTokens = [
     {type: "number", value: '0'},
     {type: "operator", value: ''},
@@ -22,44 +22,37 @@ const displayTokens = [
 const add = (a,b) => a + b;
 const subtract = (a,b) => a - b;
 const multiply = (a,b) => a * b;
-const divide = (a,b) => {return b === 0 ? 'Infinity' : a / b};
+const divide = (a,b) => {return b === 0 ? 'Bruh fr, ÷ 0?😂' : a / b};
 const mod = (a,b) => a % b;
 
 function operate(operator,num1,num2){
     let answer;
     switch (operator){
         case "+":
-            console.log(`${num1} + ${num2}`);
             answer = add(num1,num2);
             break;
         case "-":
-            console.log(`${num1} - ${num2}`);
             answer = subtract(num1,num2);
             break;
         case "x":
-            console.log(`${num1} * ${num2}`);
             answer = multiply(num1,num2);
             break;
         case "*":
-            console.log(`${num1} * ${num2}`);
             answer = multiply(num1,num2);
             break;
         case "/":
-            console.log(`${num1} / ${num2}`);
             answer = divide(num1,num2);
             break;
         case "÷":
-            console.log(`${num1} / ${num2}`);
             answer = divide(num1,num2);
             break;
         case "%":
-            console.log(`${num1} % ${num2}`);
             answer = mod(num1,num2);
             break;
         default:
-            console.log("Invalid operator");
             return;
     }
+    console.log(answer)
     return answer;
 }
 
@@ -73,9 +66,8 @@ function clearAll(){
 }
 
 function backspace(){
-    if(display.textContent.trim() === 'Infinity') return;
     const [firstInputObj, operatorObj, secondInputObj] = displayTokens;
-    console.log(`Current input is ${currentInput}`)
+    if (!Number.isFinite(Number(firstInputObj.value))) return;
     if(!currentInput && !firstInputObj.value) return
     if(!currentInput && secondInputObj.value === null && operatorObj.value){
         operatorObj.value = '';
@@ -99,15 +91,23 @@ function backspace(){
     }
 }
 
-function changeSign2(){
-    const numberToChange = display
+function changeSign(){
+    const [firstInputObj, operatorObj, secondInputObj] = displayTokens;
+    if(!Number.isFinite(Number(firstInputObj.value)) || display.textContent.trim() === '0' || (operatorObj.value && secondInputObj.value === null)) return;
+    if(firstInputObj.value !== '0' && !operatorObj.value){
+        firstInputObj.value = `${-Number(firstInputObj.value)}`
+        return;
+    }
+    if(operatorObj.value && (secondInputObj.value !== null && secondInputObj.value !== '0')){
+        secondInputObj.value = `${-Number(secondInputObj.value)}`
+        return;
+    }
 }
 
 function inputDigit(digit){
-    if(display.textContent.trim() === 'Infinity') return;
     const [firstInputObj, operatorObj, secondInputObj] = displayTokens;
-    console.log(`digit is ${digit}`);
-    if(!currentInput && !firstInputObj.value) toggleBackspaceSwitch();
+    if (!Number.isFinite(Number(firstInputObj.value))) return;
+    if(!currentInput && firstInputObj.value === '0') toggleBackspaceSwitch();
     if(!currentInput && operatorObj.value && clearBtn.innerHTML === 'AC') toggleBackspaceSwitch();
     if(digit === '.' && currentInput.includes('.')) return;
     if(digit === '.' && !currentInput) currentInput = '0';
@@ -116,15 +116,17 @@ function inputDigit(digit){
         secondInputObj.value = currentInput
     }
     else{
-        console.log(`Enter here`)
         firstInputObj.value = currentInput
     }
 }
 
 function inputOperator(operator){
-    if(display.textContent.trim() === 'Infinity') return;
     const [firstInputObj, operatorObj, secondInputObj] = displayTokens;
-    if(firstInputObj.value === null || (operatorObj.value && !secondInputObj.value)) return;
+    if (!Number.isFinite(Number(firstInputObj.value))) return;
+    if(operatorObj.value && !secondInputObj.value) {
+        operatorObj.value = operator; // replace operator
+        return;
+    }
     if(firstInputObj.value !== null && !operatorObj.value){
         currentInput = '';
         operatorObj.value = operator;
@@ -142,10 +144,10 @@ function inputOperator(operator){
 }
 
 function render(){
-    displayTokens.forEach((token,index) => console.log(`Index ${index} value is : ${token.value}`));
+    display.textContent = displayTokens.forEach((token,index) => console.log(`Value at index ${index} is ${token.value}`))
     display.textContent = displayTokens.map(token => {
         if(token.value === null || token.value === '') return '';
-        if(token.value !== null && `${token.value}`.includes('.')){
+        if(token.value !== null && !isNaN(token.value) && `${token.value}`.includes('.')){
             const pointIndex = token.value.indexOf('.');
             const afterPoint = token.value.slice(pointIndex+1);
             if(afterPoint.length > 9){
@@ -157,8 +159,8 @@ function render(){
 }
 
 function calculate(){
-    if(display.textContent.trim() === 'Infinity') return;
     const [firstInputObj, operatorObj, secondInputObj] = displayTokens;
+    if (!Number.isFinite(Number(firstInputObj.value))) return;
     if(firstInputObj.value !== null && operatorObj.value && secondInputObj.value !== null){
         const firstValue = firstInputObj.value.includes('.') ? parseFloat(firstInputObj.value) : Number(firstInputObj.value);
         const secondValue = secondInputObj.value.includes('.') ? parseFloat(secondInputObj.value) : Number(secondInputObj.value);
@@ -171,7 +173,8 @@ function calculate(){
 }
 
 function handleDecimalInput(){
-    if(display.textContent.trim() === 'Infinity') return;
+    const [firstInputObj] = displayTokens;
+    if (!Number.isFinite(Number(firstInputObj.value))) return;
     if(display.textContent.trim() === '0'){
         currentInput = '0';
     }
@@ -181,6 +184,28 @@ function handleDecimalInput(){
 function toggleBackspaceSwitch(){
     clearBtn.innerHTML = clearBtn.innerHTML.trim() === 'AC' ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id='backspace-icon'><title>backspace-outline</title><path d="M19,15.59L17.59,17L14,13.41L10.41,17L9,15.59L12.59,12L9,8.41L10.41,7L14,10.59L17.59,7L19,8.41L15.41,12L19,15.59M22,3A2,2 0 0,1 24,5V19A2,2 0 0,1 22,21H7C6.31,21 5.77,20.64 5.41,20.11L0,12L5.41,3.88C5.77,3.35 6.31,3 7,3H22M22,5H7L2.28,12L7,19H22V5Z" /></svg>` : 'AC';
 }
+
+function handleExtraFunctions(e){
+    const [firstInputObj] = displayTokens;
+    if (!Number.isFinite(Number(firstInputObj.value))) return;
+    e.stopPropagation(); // Prevent the click from immediately closing the modal
+    modal.classList.add('active');
+}
+
+function roundValue(){
+    const [firstInputObj, , secondInputObj] = displayTokens;
+    firstInputObj.value = `${Math.round(Number(firstInputObj.value))}`;
+    if(secondInputObj.value === null) return;
+    secondInputObj.value = `${Math.round(Number(secondInputObj.value))}`;
+}
+
+function truncateValue(){
+    const [firstInputObj, , secondInputObj] = displayTokens;
+    firstInputObj.value = `${Math.trunc(Number(firstInputObj.value))}`;
+    if(secondInputObj.value === null) return;
+    secondInputObj.value = `${Math.trunc(Number(secondInputObj.value))}`;
+}
+
 //Event Listeners
 window.addEventListener('DOMContentLoaded',()=>{
     render();
@@ -188,7 +213,7 @@ window.addEventListener('DOMContentLoaded',()=>{
 
 numberButtons.forEach(button => {
     button.addEventListener("click", (e) => {
-        inputDigit(Number(e.target.textContent));
+        inputDigit(e.target.textContent);
         render();
     });
 });
@@ -216,6 +241,29 @@ clearBtn.addEventListener("click", ()=>{
     render();
 });
 
+signChangerBtn.addEventListener('click',()=>{
+    changeSign();
+    render();
+});
+
+calculatorBtn.addEventListener('click', (e) => {
+    handleExtraFunctions(e);
+});
+
+modal.addEventListener('click', () => {
+    modal.classList.remove('active');
+});
+
+roundDiv.addEventListener('click',()=>{
+    roundValue();
+    render();
+})
+
+truncateDiv.addEventListener('click',()=>{
+    truncateValue();
+    render();
+})
+
 document.addEventListener('keydown',(e)=>{
     if (/\d/.test(e.key)) {
         inputDigit(e.key);
@@ -235,6 +283,9 @@ document.addEventListener('keydown',(e)=>{
 
     if(e.key === '.'){
         handleDecimalInput()
+    }
+    if(e.key === 'Escape'){
+        clearAll();
     }
     render();
 })
