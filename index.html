@@ -3,58 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rock Paper Scissors</title>
+    <title>Calculator</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="./images/calculator.png" />
 </head>
 <body>
-    <main class="game-area">
-        <div class="game-container">
-            <div class="computer-container">
-                <div class="items title">
-                    <h2 class="player-title">Computer</h2>
-                </div>
-                <div class="items image hidden">
-                    <img src="" alt="">
-                </div>
-                <div class="items scoreTitle">
-                    <h3>Computer Score</h3>
-                </div>
-                <div class="items score">
-                    <p id="computer-score">0</p>
-                </div>
-            </div>
-            <div class="versus-container">
-                <div class="items title">
-                    <h2 class="player-title">Vs</h2>
-                </div>
-                <div class="items score">
-                    <h3>-</h3>
-                </div>
-            </div>
-            <div class="human-container">
-                <div class="items title">
-                    <h2 class="player-title"><span class="player-name">Human</span></h2>
-                </div>
-                <div class="items image hidden">
-                    <img src="" alt="">
-                </div>
-                <div class="items scoreTitle">
-                    <h3><span class="player-name">Human</span> Score</h3>
-                </div>
-                <div class="items score">
-                    <p id="human-score">0</p>
-                </div>
-                <div class="choices items">
-                    <button type="button" id="rock">rock</button>
-                    <button type="button" id="paper">paper</button>
-                    <button type="button" id="scissors">scissors</button>
-                </div>
-            </div>
+    <h1>Calculator</h1>
+    <div id="calculator-container">
+        <div id="display"></div>
+        <div id="buttons-container">
+            <button class="special-operator-button" id="clear">AC</button>
+            <button class="special-operator-button" id="plus-minus">+/-</button>
+            <button class="operator-button" id="percent">%</button>
+            <button class="operator-button" id="divide">÷</button>
+            <button class="number-button" id="num-7">7</button>
+            <button class="number-button" id="num-8">8</button>
+            <button class="number-button" id="num-9">9</button>
+            <button class="operator-button" id="multiply">x</button>
+            <button class="number-button" id="num-4">4</button>
+            <button class="number-button" id="num-5">5</button>
+            <button class="number-button" id="num-6">6</button>
+            <button class="operator-button" id="subtract">-</button>
+            <button class="number-button" id="num-1">1</button>
+            <button class="number-button" id="num-2">2</button>
+            <button class="number-button" id="num-3">3</button>
+            <button class="operator-button" id="add">+</button>
+            <button class="special-operator-button" id="calculator-type">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="calculator-logo"><title>calculator</title><path d="M7,2H17A2,2 0 0,1 19,4V20A2,2 0 0,1 17,22H7A2,2 0 0,1 5,20V4A2,2 0 0,1 7,2M7,4V8H17V4H7M7,10V12H9V10H7M11,10V12H13V10H11M15,10V12H17V10H15M7,14V16H9V14H7M11,14V16H13V14H11M15,14V16H17V14H15M7,18V20H9V18H7M11,18V20H13V18H11M15,18V20H17V18H15M7,18V20H9V18H7M11,18V20H13V18H11M15,18V20H17V18H15Z" /></svg>
+            </button>
+            <button class="number-button" id="num-0">0</button>
+            <button class="decimal-button" id="decimal">.</button>
+            <button class="special-operator-button" id="equals">=</button>
         </div>
-        <div class="results">
-            <p id="results-text">Results</p>
-        </div>
-    </main>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
