@@ -43,3 +43,8 @@ function changeSign(){
         currentNumber = display.textContent;
     }
 }
+
+const operatorSigns = ['+','-','*','x','/','%'];
+const operatorsRegex = /[\d\)]([\+x%\÷-])[\d\()]/;
+const bracketsRegex = /[\(\)]/;
+const firstHalfRegex = /^\(-\d+\)$/;
